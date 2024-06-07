@@ -1,11 +1,30 @@
-import { useState } from 'react'
-import './App.css'
+import './App.css';
+import Dog from './components/dog';
+import React from 'react'
 
 const App = () => {
 
-  return (
-    <h1>Hello world!</h1>
-  );
-}
+  const [dogs, setDogs] = React.useState([])
 
-export default App
+
+  React.useEffect(() => {
+    async function fetchDogs() {
+      const resp = await fetch('https://dog.ceo/api/breed/cockapoo/images')
+      const data = await resp.json()
+      setDogs(data.message)
+    }
+
+    fetchDogs()
+
+  }, [])
+  
+  return (
+    <>
+      <h1>Cockapoo instax</h1>
+      <Dog dogData={dogs} />
+    </>
+  );
+  
+};
+
+export default App;
